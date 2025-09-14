@@ -189,4 +189,23 @@ Special thanks to Atlan, OpenRouter, and the DSPy team for enabling rapid protot
 
 ---
 
+## 🏗️ System Design Diagram
+
+Below is a high-level architecture diagram of the Atlan Customer Support Copilot pipeline:
+
+```mermaid
+graph TD
+    A[User] -->|Bulk Tickets| B[Streamlit UI]
+    A -->|New Ticket| B
+    B -->|Classify| C[Classification Agent (DSPy)]
+    B -->|RAG Query| D[RAG Agent (DSPy + FAISS)]
+    D -->|Retrieve| E[FAISS Vector DB]
+    D -->|Embed| F[SentenceTransformer]
+    D -->|Docs| G[Markdown Knowledge Base]
+    C -->|Results| B
+    D -->|Response + Sources| B
+```
+
+---
+
 **For questions or contributions, open an issue or pull request on GitHub!**
