@@ -1,0 +1,2 @@
+vector_database/faiss.index filter=lfs diff=lfs merge=lfs -text
+vector_database/metadata_store.pkl filter=lfs diff=lfs merge=lfs -text
