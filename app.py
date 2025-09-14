@@ -334,9 +334,10 @@ elif page == "Interactive Agent":
             # ---- Final Response ----
             rag_topics = {"How-to", "Product", "Best practices", "API/SDK", "SSO"}
             if any(t in rag_topics for t in pred.topics):
-                embed_model = load_embedder("BAAI/bge-large-en-v1.5")
-                rag_agent = load_rag_agent(embed_model)
-                rag_response = rag_agent(user_body)
+                with st.spinner("Generating detailed response..."):
+                    embed_model = load_embedder("BAAI/bge-large-en-v1.5")
+                    rag_agent = load_rag_agent(embed_model)
+                    rag_response = rag_agent(user_body)
 
                 with st.expander("AI-Generated Response", expanded=True):
                     st.markdown(rag_response["answer"])
