@@ -5,6 +5,39 @@ import json
 import streamlit as st
 from dotenv import load_dotenv
 
+
+# ------------------- DRIVE DOWNLOAD HELPER -------------------
+import gdown
+
+def ensure_vector_db_files():
+    os.makedirs("vector_database", exist_ok=True)
+
+    files_to_download = {
+        "vector_database/faiss.index": "https://drive.google.com/uc?id=11jcDTuWeAsbmJ9h9JdQEmtVsiJm2kHU7",
+        "vector_database/metadata_store.pkl": "https://drive.google.com/uc?id=1r34nQG8Z_HxXcWK6IdUHQuV2yr4itxFW",
+    }
+
+    for local_path, url in files_to_download.items():
+        if not os.path.exists(local_path):
+            st.info(f"Downloading required file: {os.path.basename(local_path)} ⏳")
+            gdown.download(url, local_path, quiet=False)
+            st.success(f"Downloaded {os.path.basename(local_path)} ✅")
+
+ensure_vector_db_files()
+# -------------------------------------------------------------
+
+load_dotenv()
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+lm = dspy.LM(
+    "openrouter/meta-llama/llama-4-scout",
+    api_key=OPENROUTER_API_KEY,
+    cache=False,
+    provider="groq"
+)
+if not hasattr(dspy.settings, "lm") or dspy.settings.lm is None:
+    dspy.configure(lm=lm)
+
+
 load_dotenv()
 OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 lm = dspy.LM(
