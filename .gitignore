@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 .env
+vector_database/faiss.index
+vector_database/metadata_store.pkl
